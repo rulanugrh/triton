@@ -1,4 +1,4 @@
-export interface CategoryReq {
+export class CategoryReq {
     id: string
     name: string
 }

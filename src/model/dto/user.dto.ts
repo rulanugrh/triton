@@ -1,5 +1,5 @@
-export interface UserReq {
-    id: string
+export class UserReq {
+    id: number
     name: string
     email: string
     password: string
