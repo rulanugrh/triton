@@ -17,6 +17,11 @@ import { CategoryRepository } from './repository/category.repository';
 import { CategoryService } from './services/category.service';
 import { CategoryController } from './controller/category.controller';
 import { CategoryRoutes } from './routes/category.routes';
+import { UserRepository } from './repository/user.repository';
+import { User } from './entity/user.entity';
+import { UserService } from './services/user.service';
+import { UserController } from './controller/user.controller';
+import { UserRoutes } from './routes/user.routes';
 
 // creating express server
 const app: express.Application = express();
@@ -47,13 +52,20 @@ myDataSource.initialize()
 app.use(express.json())
 app.use(cors)
 
+// section todo
 const todoRepository = new TodoRepository(Todo, myDataSource.manager)
 const todoServices = new TodoService(todoRepository)
 const todoController = new TodoController(todoServices)
 
+// section category
 const categoryRepository = new CategoryRepository(Category, myDataSource.manager)
 const categoryService = new CategoryService(categoryRepository)
 const categoryController = new CategoryController(categoryService)
+
+// section user
+const userRepository = new UserRepository(User, myDataSource.manager)
+const userService = new UserService(userRepository)
+const userController = new UserController(userService)
 
 // logger options for logging system
 const loggerOptions: expressWinston.LoggerOptions = {
@@ -68,6 +80,7 @@ const loggerOptions: expressWinston.LoggerOptions = {
 app.use(expressWinston.logger(loggerOptions))
 routes.push(new TodoRoutes(app, todoController))
 routes.push(new CategoryRoutes(app, categoryController))
+routes.push(new UserRoutes(app, userController))
 
 // listening port
 const runningMessage = `Server running at port : ${port}`
