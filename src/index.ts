@@ -7,6 +7,10 @@ import { CommonRouting } from './common/routes.config';
 import { TodoRoutes } from './routes/todo.routes';
 import expressWinston  from 'express-winston';
 import winston from 'winston';
+import { TodoRepository } from './repository/todo.repository';
+import { TodoService } from './services/todo.service';
+import { Todo } from './entity/todo.entity';
+import { TodoController } from './controller/todo.controller';
 
 // creating express server
 const app: express.Application = express();
@@ -17,6 +21,10 @@ const debugLog: debug.IDebugger = debug('app')
 const routes: Array<CommonRouting> = [];
 app.use(express.json())
 app.use(cors)
+
+let todoRepository: TodoRepository
+let todoServices = new TodoService(todoRepository)
+let todoController = new TodoController(todoServices)
 
 // logger options for logging system
 const loggerOptions: expressWinston.LoggerOptions = {
@@ -29,7 +37,7 @@ const loggerOptions: expressWinston.LoggerOptions = {
 }
 
 app.use(expressWinston.logger(loggerOptions))
-routes.push(new TodoRoutes(app))
+routes.push(new TodoRoutes(app, todoController))
 
 // listening port
 const runningMessage = `Server running at port : ${port}`

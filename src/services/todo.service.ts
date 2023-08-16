@@ -1,11 +1,11 @@
-import { InterfaceTodo } from "./port/todo.iserv";
+import { InterfaceTodoService } from "./port/todo.iserv";
 import { TodoReq } from "../model/dto/todo.dto";
 import { TodoRes } from "../model/dao/todo.dao";
-import { TodoRepository } from "../repository/todo.repository";
+import { InterfaceTodo } from "../repository/port/todo.irepo";
 
-export class TodoService implements InterfaceTodo {
-    repo: TodoRepository
-    constructor(repo: TodoRepository) {
+export class TodoService implements InterfaceTodoService {
+    repo: InterfaceTodo
+    constructor(repo: InterfaceTodo) {
         this.repo = repo
     }
 
