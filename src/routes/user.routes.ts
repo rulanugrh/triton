@@ -15,6 +15,7 @@ export class UserRoutes extends CommonRouting {
     configRoutes() {
         this.app.route('/api/v1/auth').post(this.controller.Register)
         this.app.route('/api/v1/login').post(this.controller.Login)
+        this.app.route('/api/v1/refreshToken').post(this.controller.RefreshToken)
         this.app.route('/api/v1/user/:id').put(this.controller.Update)
         
         return this.app

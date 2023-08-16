@@ -1,8 +1,10 @@
+import { env } from "../common/env";
 import { ComparePassword, HashPassword } from "../middleware/hashPassword";
 import { UserReq } from "../model/dto/user.dto";
 import { InterfaceUserService } from "../services/port/user.iserv";
 import { InterfaceUserController } from "./port/user.icontroll";
 import express from 'express'
+import jwt from 'jsonwebtoken'
 
 export class UserController implements InterfaceUserController {
     user: InterfaceUserService
@@ -22,11 +24,20 @@ export class UserController implements InterfaceUserController {
         }
     }
     async Login(req: express.Request, res: express.Response): Promise<express.Response> {
+        const secret = env.jwt_secret
         try {
-            let userReq: UserReq
-            ComparePassword(req.body.password, userReq.password)
+            ComparePassword(req.body.password, req.body.password)
             const data = await this.user.FindByEmail(req.body.email)
-            return res.send(200).json(data)
+            const token = jwt.sign(req.body.email, secret, {
+                algorithm: 'HS256',
+                expiresIn: '1h',
+                issuer: req.body.name
+            })
+
+            return res.send(200).json({
+                'data': data,
+                'token': token,
+            })
 
         } catch (error) {
             return res.status(500).json(
@@ -43,6 +54,28 @@ export class UserController implements InterfaceUserController {
         } catch (error) {
             return res.status(500).json(
                 `cant update acccount, because: ${error}`,
+            )
+        }
+    }
+
+    async RefreshToken(req: express.Request, res: express.Response): Promise<express.Response> {
+        const secret = env.jwt_secret
+        try {
+            const _ = await this.user.FindByEmail(req.body.email)
+            const token = jwt.sign(req.body.email, secret, {
+                algorithm: 'HS256',
+                expiresIn: '1h',
+                issuer: req.body.name
+            })
+
+            return res.send(200).json({
+                'msg': "success refresh token",
+                'token': token,
+            })
+
+        } catch (error) {
+            return res.status(500).json(
+                `cant refresh token, because: ${error}`,
             )
         }
     }

@@ -9,5 +9,6 @@ export const env = {
         name: process.env.MYSQLDB_NAME,
         user: process.env.MYSQLDB_USER,
         pass: process.env.MYSQLDB_PASS,
-    }
+    },
+    jwt_secret: process.env.JWT_SECRET
 }
