@@ -1,8 +1,4 @@
-import bodyParser from 'body-parser';
-import compression from 'compression';
 import express from 'express';
-import morgan from 'morgan';
-
 
 export abstract class CommonRouting {
     // Creating common routing for API

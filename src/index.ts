@@ -3,7 +3,6 @@ import http from 'http';
 import cors from 'cors';
 import debug from 'debug'
 import { DataSource } from "typeorm"
-
 import { CommonRouting } from './common/routes.config';
 import { TodoRoutes } from './routes/todo.routes';
 import expressWinston  from 'express-winston';
@@ -48,11 +47,11 @@ myDataSource.initialize()
 app.use(express.json())
 app.use(cors)
 
-let todoRepository: TodoRepository
+let todoRepository = new TodoRepository(Todo, myDataSource.manager)
 let todoServices = new TodoService(todoRepository)
 let todoController = new TodoController(todoServices)
 
-let categoryRepository: CategoryRepository
+let categoryRepository = new CategoryRepository(Category, myDataSource.manager)
 let categoryService = new CategoryService(categoryRepository)
 let categoryController = new CategoryController(categoryService)
 
