@@ -1,4 +1,4 @@
-export interface TodoRes {
+export class TodoRes {
     name: string
     description: string
     isDone: boolean

@@ -1,3 +1,3 @@
-export interface CategoryRes {
+export class CategoryRes {
     name: string
 }

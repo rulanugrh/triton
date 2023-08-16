@@ -1,4 +1,4 @@
-export interface UserRes {
+export class UserRes {
     name: string
     email: string
     gender: string
