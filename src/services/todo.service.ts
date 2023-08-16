@@ -17,7 +17,7 @@ export class TodoService implements InterfaceTodoService {
         todo.isDone = data.isDone
         todo.create_at = data.create_at
         todo.update_at = data.update_at
-        todo.category_id = data.categoryID
+        todo.category_name = data.category.name
 
         try {
             return todo
@@ -29,7 +29,7 @@ export class TodoService implements InterfaceTodoService {
     async FindById(id: number): Promise<TodoRes> {
         const data = await this.repo.FindById(id)
         let todo: TodoRes
-        todo.category_id = data.categoryID
+        todo.category_name = data.category.name
         todo.description = data.description
         todo.name = data.name
         todo.create_at = data.create_at
@@ -46,7 +46,7 @@ export class TodoService implements InterfaceTodoService {
     async Update(id: number, req: TodoReq): Promise<TodoRes> {
         const data = await this.repo.Update(id, req)
         let todo: TodoRes
-        todo.category_id = data.categoryID
+        todo.category_name = data.category.name
         todo.name = data.name
         todo.description = data.description
         todo.create_at = data.create_at
@@ -65,7 +65,7 @@ export class TodoService implements InterfaceTodoService {
         let res: TodoRes[]
         for (const todo of data) {
             let todores: TodoRes
-            todores.category_id = todo.categoryID
+            todores.category_name = todo.category.name
             todores.name = todo.name
             todores.description = todo.description
             todores.create_at = todo.create_at

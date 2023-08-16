@@ -1,4 +1,4 @@
-import { IsString, IsInt } from "class-validator"
+import { IsString, IsInt, IsDate } from "class-validator"
 import { Type } from "class-transformer"
 
 export class CategoryReq {
@@ -9,4 +9,9 @@ export class CategoryReq {
     @IsString()
     name: string
 
+    @IsDate()
+    create_at: Date
+
+    @IsDate()
+    update_at: Date
 }

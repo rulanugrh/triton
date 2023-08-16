@@ -2,7 +2,7 @@ export class TodoRes {
     name: string
     description: string
     isDone: boolean
-    category_id: number
+    category_name: string
     create_at: Date
     update_at: Date
 }

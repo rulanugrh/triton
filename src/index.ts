@@ -47,13 +47,13 @@ myDataSource.initialize()
 app.use(express.json())
 app.use(cors)
 
-let todoRepository = new TodoRepository(Todo, myDataSource.manager)
-let todoServices = new TodoService(todoRepository)
-let todoController = new TodoController(todoServices)
+const todoRepository = new TodoRepository(Todo, myDataSource.manager)
+const todoServices = new TodoService(todoRepository)
+const todoController = new TodoController(todoServices)
 
-let categoryRepository = new CategoryRepository(Category, myDataSource.manager)
-let categoryService = new CategoryService(categoryRepository)
-let categoryController = new CategoryController(categoryService)
+const categoryRepository = new CategoryRepository(Category, myDataSource.manager)
+const categoryService = new CategoryService(categoryRepository)
+const categoryController = new CategoryController(categoryService)
 
 // logger options for logging system
 const loggerOptions: expressWinston.LoggerOptions = {

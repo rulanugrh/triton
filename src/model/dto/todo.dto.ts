@@ -1,6 +1,6 @@
 import { CategoryReq } from "./category.dto"
 import { Type } from "class-transformer"
-import { IsString, IsInt, IsBoolean } from "class-validator"
+import { IsString, IsInt, IsBoolean, IsDate } from "class-validator"
 
 export class TodoReq {
     @IsInt()
@@ -21,6 +21,10 @@ export class TodoReq {
     categoryID: number
     
     category: CategoryReq
+
+    @IsDate()
     create_at: Date
+    
+    @IsDate()
     update_at: Date
 }

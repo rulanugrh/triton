@@ -1,5 +1,5 @@
 import { Type } from "class-transformer"
-import { IsString, IsInt, IsEmail, MinLength } from "class-validator"
+import { IsString, IsInt, IsEmail, MinLength, IsDate } from "class-validator"
 
 export class UserReq {
     @IsInt()
@@ -25,6 +25,9 @@ export class UserReq {
     @IsString()
     avatar?: string
 
+    @IsDate()
     create_at: Date
+
+    @IsDate()
     update_at: Date
 }

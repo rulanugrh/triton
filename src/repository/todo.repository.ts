@@ -7,6 +7,8 @@ import { TodoReq } from '../model/dto/todo.dto';
 export class TodoRepository extends Repository<Todo> implements InterfaceTodo {
 
     async CreateTodo(todo: TodoReq): Promise<Todo> {
+        todo.create_at = new Date()
+        todo.update_at = new Date()
         try {
             return await this.create(todo).save()
         } catch (error) {
@@ -33,6 +35,7 @@ export class TodoRepository extends Repository<Todo> implements InterfaceTodo {
         todos.name  = name
         todos.isDone = isDone
         todos.description = description
+        todos.update_at = new Date()
 
         try {
             return await todos.save()
