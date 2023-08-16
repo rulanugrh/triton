@@ -14,13 +14,16 @@ import { Todo } from './entity/todo.entity';
 import { TodoController } from './controller/todo.controller';
 import { Category } from './entity/category.entity';
 import { env } from './common/env';
+import { CategoryRepository } from './repository/category.repository';
+import { CategoryService } from './services/category.service';
+import { CategoryController } from './controller/category.controller';
+import { CategoryRoutes } from './routes/category.routes';
 
 // creating express server
 const app: express.Application = express();
 const server: http.Server = http.createServer(app);
 const port = 3000;
 const debugLog: debug.IDebugger = debug('app')
-
 const routes: Array<CommonRouting> = [];
 
 const myDataSource = new DataSource({
@@ -49,6 +52,10 @@ let todoRepository: TodoRepository
 let todoServices = new TodoService(todoRepository)
 let todoController = new TodoController(todoServices)
 
+let categoryRepository: CategoryRepository
+let categoryService = new CategoryService(categoryRepository)
+let categoryController = new CategoryController(categoryService)
+
 // logger options for logging system
 const loggerOptions: expressWinston.LoggerOptions = {
     transports: [new winston.transports.Console()],
@@ -61,6 +68,7 @@ const loggerOptions: expressWinston.LoggerOptions = {
 
 app.use(expressWinston.logger(loggerOptions))
 routes.push(new TodoRoutes(app, todoController))
+routes.push(new CategoryRoutes(app, categoryController))
 
 // listening port
 const runningMessage = `Server running at port : ${port}`
