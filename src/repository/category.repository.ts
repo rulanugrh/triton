@@ -9,7 +9,7 @@ export class CategoryRepository extends Repository<Category> implements Interfac
         try {
             return await this.create(cateReq).save()
         } catch (error) {
-            throw new Error("cant create category")
+            throw new Error(`Something error: ${error}`)
         }
     }
 }
