@@ -1,6 +1,7 @@
 import express from "express";
 import { CommonRouting } from "../common/routes.config";
 import { InterfaceCategoryController } from "../controller/port/category.icontroll";
+import { auth } from "../middleware/jwtVerify";
 
 
 export class CategoryRoutes extends CommonRouting {
@@ -13,7 +14,7 @@ export class CategoryRoutes extends CommonRouting {
 
     // implements from common routing abstract
     configRoutes() {
-        this.app.route('/api/v1/category').post(this.controller.CreateCategory)
+        this.app.route('/api/v1/category').post(auth, this.controller.CreateCategory)
         
         return this.app
     }

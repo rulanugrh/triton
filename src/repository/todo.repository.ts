@@ -10,7 +10,9 @@ export class TodoRepository extends Repository<Todo> implements InterfaceTodo {
         todo.create_at = new Date()
         todo.update_at = new Date()
         try {
-            return await this.create(todo).save()
+            const data = await this.create(todo).save()
+            this.preload(data.category)
+            return data
         } catch (error) {
             throw new Error(`Something error: ${error}`)
         }
@@ -22,7 +24,9 @@ export class TodoRepository extends Repository<Todo> implements InterfaceTodo {
 
     async FindById(id: number): Promise<Todo> {
         try {
-            return await this.findOneBy({id: id})
+            const data = await this.findOneBy({id: id})
+            this.preload(data.category)
+            return data
         } catch (error) {
             throw new Error(`Something error: ${error}`)
         }
