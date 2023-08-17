@@ -12,11 +12,15 @@ Anyway, this project still uses the restful api plan, maybe I'll study tRPC and 
 ## Usage
 ### 1.1 Usage with Node
 Run this command for innstall dependecy
-```js
+```bash
 npm i
 ```
 then running this command for compile file ts
-```js
+```bash
+npm run ts
+```
+then running this command for running server
+```bash
 npm run dev
 ```
 
@@ -26,7 +30,7 @@ Run this command to download docker-compose (this command for linux)
 sudo apt install docker-compose -y
 ```
 then running this command
-```
+```bash
 docker-compose up -d
 ```
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif"></p>
