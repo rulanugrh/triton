@@ -25,9 +25,6 @@ export class UserReq {
     @IsString()
     avatar?: string
 
-    @IsDate()
     create_at: Date
-
-    @IsDate()
     update_at: Date
 }

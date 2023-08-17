@@ -22,6 +22,7 @@ import { User } from './entity/user.entity';
 import { UserService } from './services/user.service';
 import { UserController } from './controller/user.controller';
 import { UserRoutes } from './routes/user.routes';
+import { myDataSource } from './common/data-source';
 
 // creating express server
 const app: express.Application = express();
@@ -30,15 +31,8 @@ const port = 3000;
 const debugLog: debug.IDebugger = debug('app')
 const routes: Array<CommonRouting> = [];
 
-const myDataSource = new DataSource({
-    type: "mysql",
-    host: `${env.database.host}`,
-    port: Number(env.database.port),
-    username: env.database.user,
-    password: env.database.pass,
-    database: env.database.name,
-    entities: [Todo, Category],
-})
+
+
 
 myDataSource.initialize()
     .then(() => {
@@ -48,24 +42,9 @@ myDataSource.initialize()
         throw new Error(`Cant init database because : ${err}`)
     }) 
 
-
 app.use(express.json())
 app.use(cors)
 
-// section todo
-const todoRepository = new TodoRepository(Todo, myDataSource.manager)
-const todoServices = new TodoService(todoRepository)
-const todoController = new TodoController(todoServices)
-
-// section category
-const categoryRepository = new CategoryRepository(Category, myDataSource.manager)
-const categoryService = new CategoryService(categoryRepository)
-const categoryController = new CategoryController(categoryService)
-
-// section user
-const userRepository = new UserRepository(User, myDataSource.manager)
-const userService = new UserService(userRepository)
-const userController = new UserController(userService)
 
 // logger options for logging system
 const loggerOptions: expressWinston.LoggerOptions = {
@@ -78,9 +57,9 @@ const loggerOptions: expressWinston.LoggerOptions = {
 }
 
 app.use(expressWinston.logger(loggerOptions))
-routes.push(new TodoRoutes(app, todoController))
-routes.push(new CategoryRoutes(app, categoryController))
-routes.push(new UserRoutes(app, userController))
+routes.push(new TodoRoutes(app))
+routes.push(new CategoryRoutes(app))
+routes.push(new UserRoutes(app))
 
 // listening port
 const runningMessage = `Server running at port : ${port}`

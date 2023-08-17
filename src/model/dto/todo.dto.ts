@@ -21,10 +21,6 @@ export class TodoReq {
     categoryID: number
     
     category: CategoryReq
-
-    @IsDate()
-    create_at: Date
-    
-    @IsDate()
+    create_at: Date    
     update_at: Date
 }

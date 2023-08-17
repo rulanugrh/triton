@@ -3,7 +3,7 @@ import { ComparePassword, HashPassword } from "../middleware/hashPassword";
 import { UserReq } from "../model/dto/user.dto";
 import { InterfaceUserService } from "../services/port/user.iserv";
 import { InterfaceUserController } from "./port/user.icontroll";
-import express from 'express'
+import { Request, Response} from "express"
 import jwt from 'jsonwebtoken'
 
 export class UserController implements InterfaceUserController {
@@ -12,10 +12,10 @@ export class UserController implements InterfaceUserController {
         this.user = userServ
     }
 
-    async Register(req: express.Request, res: express.Response): Promise<express.Response> {
+    async Register(req: Request, res: Response): Promise<Response> {
+        req.body.password = HashPassword(req.body.password)
+        const data = await this.user.CreateUser(req.body)
         try {
-            req.body.password = HashPassword(req.body.password)
-            const data = await this.user.CreateUser(req.body)
             return res.send(200).json(data)
         } catch (error) {
             return res.status(500).json(
@@ -23,16 +23,17 @@ export class UserController implements InterfaceUserController {
             )
         }
     }
-    async Login(req: express.Request, res: express.Response): Promise<express.Response> {
+    async Login(req: Request, res: Response): Promise<Response> {
         const secret = env.jwt_secret
+        ComparePassword(req.body.password, req.body.password)
+        const data = await this.user.FindByEmail(req.body.email)
+        const token = jwt.sign(req.body.email, secret, {
+            algorithm: 'HS256',
+            expiresIn: '1h',
+            issuer: req.body.name
+        })
         try {
-            ComparePassword(req.body.password, req.body.password)
-            const data = await this.user.FindByEmail(req.body.email)
-            const token = jwt.sign(req.body.email, secret, {
-                algorithm: 'HS256',
-                expiresIn: '1h',
-                issuer: req.body.name
-            })
+            
 
             return res.send(200).json({
                 'data': data,
@@ -46,10 +47,10 @@ export class UserController implements InterfaceUserController {
         }
     }
 
-    async Update(req: express.Request, res: express.Response): Promise<express.Response> {
+    async Update(req: Request, res: Response): Promise<Response> {
+        const id = req.params.id
+        const data = await this.user.Update(Number(id), req.body)
         try {
-            const id = req.params.id
-            const data = await this.user.Update(Number(id), req.body)
             return res.send(200).json(data)
         } catch (error) {
             return res.status(500).json(
@@ -58,16 +59,16 @@ export class UserController implements InterfaceUserController {
         }
     }
 
-    async RefreshToken(req: express.Request, res: express.Response): Promise<express.Response> {
+    async RefreshToken(req: Request, res: Response): Promise<Response> {
         const secret = env.jwt_secret
-        try {
-            const _ = await this.user.FindByEmail(req.body.email)
+        const _ = await this.user.FindByEmail(req.body.email)
             const token = jwt.sign(req.body.email, secret, {
                 algorithm: 'HS256',
                 expiresIn: '1h',
                 issuer: req.body.name
             })
 
+        try {            
             return res.send(200).json({
                 'msg': "success refresh token",
                 'token': token,

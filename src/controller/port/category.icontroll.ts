@@ -1,5 +1,5 @@
-import express from "express"
+import { Request, Response} from "express"
 
 export interface InterfaceCategoryController {
-    CreateCategory(req: express.Request, res: express.Response): Promise<express.Response>   
+    CreateCategory(req: Request, res: Response): Promise<Response>
 }

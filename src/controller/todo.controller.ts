@@ -1,4 +1,4 @@
-import express  from "express";
+import { Request, Response} from "express"
 import { InterfaceTodoController } from "./port/todo.icontroll";
 import { InterfaceTodoService } from "../services/port/todo.iserv";
 
@@ -9,9 +9,9 @@ export class TodoController implements InterfaceTodoController {
         this.serv = serv
     }
 
-    async CreateTodo(req: express.Request, res: express.Response): Promise<express.Response> {
-        try {
-            const data = await this.serv.CreateTodo(req.body)            
+    async CreateTodo(req: Request, res: Response): Promise<Response> {
+        const data = await this.serv.CreateTodo(req.body)  
+        try {          
             return res.status(200).json(data)
         } catch (error) {
             return res.status(500).json(
@@ -20,10 +20,11 @@ export class TodoController implements InterfaceTodoController {
         }
     }
 
-    async FindTodoById(req: express.Request, res: express.Response): Promise<express.Response> {
+    async FindTodoById(req: Request, res: Response): Promise<Response> {
+        const id = req.params.id
+        const data = await this.serv.FindById(Number(id))
+
         try {
-            const id = req.params.id
-            const data = await this.serv.FindById(Number(id))
             return res.status(200).json(data)
         } catch (error) {
             return res.status(500).json(
@@ -32,9 +33,9 @@ export class TodoController implements InterfaceTodoController {
         }
     }
 
-    async FindTodo(req: express.Request, res: express.Response): Promise<express.Response> {
+    async FindTodo(req: Request, res: Response): Promise<Response> {
+        const data = await this.serv.FindAll()
         try {
-            const data = await this.serv.FindAll()
             return res.status(200).json(data)
         } catch (error) {
             return res.status(500).json(
@@ -43,10 +44,10 @@ export class TodoController implements InterfaceTodoController {
         }
     }
 
-    async UpdateTodo(req: express.Request, res: express.Response): Promise<express.Response> {
+    async UpdateTodo(req: Request, res: Response): Promise<Response> {
+        const id = req.params.id
+        const data = await this.serv.Update(Number(id), req.body)
         try {
-            const id = req.params.id
-            const data = await this.serv.Update(Number(id), req.body)
             return res.status(200).json(data)
         } catch (error) {
             return res.status(500).json(
@@ -55,11 +56,11 @@ export class TodoController implements InterfaceTodoController {
         }
     }
 
-    async DeleteTodo(req: express.Request, res: express.Response): Promise<express.Response>  {
+    async DeleteTodo(req: Request, res: Response): Promise<Response>  {
+        const id = req.params.id
+        const data = await this.serv.Delete(Number(id))
         try {
-            const id = req.params.id
-            const data = await this.serv.Delete(Number(id))
-            return res.status(200).json(`success delete ${data}`)
+            return res.status(200).json(`success delete with id ${id}`)
         } catch (error) {
             return res.status(500).json(
                 `cant find by this id, because: ${error}`,

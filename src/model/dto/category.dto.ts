@@ -9,9 +9,6 @@ export class CategoryReq {
     @IsString()
     name: string
 
-    @IsDate()
     create_at: Date
-
-    @IsDate()
     update_at: Date
 }

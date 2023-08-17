@@ -1,8 +1,8 @@
-import express from 'express'
+import { Request, Response} from "express"
 
 export interface InterfaceUserController {
-    Register(req: express.Request, res: express.Response): Promise<express.Response>
-    Login(req: express.Request, res: express.Response): Promise<express.Response>
-    Update(req: express.Request, res: express.Response): Promise<express.Response>
-    RefreshToken(req: express.Request, res: express.Response): Promise<express.Response>
+    Register(req: Request, res: Response): Promise<Response>
+    Login(req: Request, res: Response): Promise<Response>
+    Update(req: Request, res: Response): Promise<Response>
+    RefreshToken(req: Request, res: Response): Promise<Response>
 }
