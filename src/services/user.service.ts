@@ -8,27 +8,57 @@ export class UserService implements InterfaceUserService {
     constructor(repo: InterfaceUser) {
         this.repo = repo
     }
-    async CreateUser(userReq: UserReq): Promise<UserReq> {
+    async CreateUser(userReq: UserReq): Promise<UserRes> {
         try {
-            return await this.repo.CreateUser(userReq)
+            const data =  await this.repo.CreateUser(userReq)
+            let res: UserRes = new UserRes()
+            res.address = data.address
+            res.avatar = data.avatar
+            res.create_at = data.create_at
+            res.email = data.email
+            res.gender = data.gender
+            res.name = data.name
+            res.update_at = data.update_at
+
+            return res
         } catch (error) {
             throw new Error(`Cant create because: ${error}`);
             
         }
     }
 
-    async FindByEmail(email: string): Promise<UserReq> {
+    async FindByEmail(email: string): Promise<UserRes> {
         try {
-            return await this.repo.FindByEmail(email)
+            const data = await this.repo.FindByEmail(email)
+            let res: UserRes = new UserRes()
+            res.address = data.address
+            res.avatar = data.avatar
+            res.create_at = data.create_at
+            res.email = data.email
+            res.gender = data.gender
+            res.name = data.name
+            res.update_at = data.update_at
+
+            return res
         } catch (error) {
             throw new Error(`Cant create because: ${error}`);
             
         }
     }
 
-    async Update(id: number, userReq: UserReq): Promise<UserReq> {
+    async Update(id: number, userReq: UserReq): Promise<UserRes> {
         try {
-            return await this.repo.Update(id, userReq)
+            const data =  await this.repo.Update(id, userReq)
+            let res: UserRes = new UserRes()
+            res.address = data.address
+            res.avatar = data.avatar
+            res.create_at = data.create_at
+            res.email = data.email
+            res.gender = data.gender
+            res.name = data.name
+            res.update_at = data.update_at
+
+            return res
         } catch (error) {
             throw new Error(`Cant create because: ${error}`);
             
