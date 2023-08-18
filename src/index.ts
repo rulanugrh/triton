@@ -2,25 +2,11 @@ import express from 'express';
 import http from 'http';
 import cors from 'cors';
 import debug from 'debug'
-import { DataSource } from "typeorm"
 import { CommonRouting } from './common/routes.config';
 import { TodoRoutes } from './routes/todo.routes';
 import expressWinston  from 'express-winston';
 import winston from 'winston';
-import { TodoRepository } from './repository/todo.repository';
-import { TodoService } from './services/todo.service';
-import { Todo } from './entity/todo.entity';
-import { TodoController } from './controller/todo.controller';
-import { Category } from './entity/category.entity';
-import { env } from './common/env';
-import { CategoryRepository } from './repository/category.repository';
-import { CategoryService } from './services/category.service';
-import { CategoryController } from './controller/category.controller';
 import { CategoryRoutes } from './routes/category.routes';
-import { UserRepository } from './repository/user.repository';
-import { User } from './entity/user.entity';
-import { UserService } from './services/user.service';
-import { UserController } from './controller/user.controller';
 import { UserRoutes } from './routes/user.routes';
 import { myDataSource } from './common/data-source';
 
@@ -30,9 +16,6 @@ const server: http.Server = http.createServer(app);
 const port = 3000;
 const debugLog: debug.IDebugger = debug('app')
 const routes: Array<CommonRouting> = [];
-
-
-
 
 myDataSource.initialize()
     .then(() => {

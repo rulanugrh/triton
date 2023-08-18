@@ -12,5 +12,7 @@ export const myDataSource = new DataSource({
     username: env.database.user,
     password: env.database.pass,
     database: env.database.name,
+    logging: true,
+    synchronize: true,
     entities: [Todo, Category, User],
 })
